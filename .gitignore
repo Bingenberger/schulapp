@@ -1,0 +1,30 @@
+# Python Byte-Code (wird automatisch generiert)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtuelle Umgebungen (sehr wichtig!)
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Distribution / Pakete
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints
+
+# IDE Einstellungen (VS Code, PyCharm etc.)
+.vscode/
+.idea/
+
+# Datenbanken (falls Sie SQLite nutzen)
+*.sqlite3
+db.sqlite3
+
+# Logs
+*.log
