@@ -15,59 +15,73 @@
 <hr>
 
 {% for row in report_data %}
-<div class="card mb-4 shadow-sm" style="border-left: 5px solid {% if row.durchschnitt >= 3.5 %}#198754{% elif row.durchschnitt >= 2.5 %}#0d6efd{% elif row.durchschnitt >= 1.5 %}#ffc107{% else %}#dc3545{% endif %};">
-    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+<div class="card mb-4 shadow-sm"
+    style="border-left: 5px solid {% if row.durchschnitt >= 3.5 %}#198754{% elif row.durchschnitt >= 2.5 %}#0d6efd{% elif row.durchschnitt >= 1.5 %}#ffc107{% else %}#dc3545{% endif %};">
+    <!-- Header jetzt klickbar -->
+    <div class="card-header bg-light d-flex justify-content-between align-items-center" style="cursor: pointer;"
+        data-bs-toggle="collapse" data-bs-target="#collapse-{{ row.item.id }}" aria-expanded="false"
+        aria-controls="collapse-{{ row.item.id }}">
+
         <div>
             <h5 class="mb-0">{{ row.item.text }}</h5>
             <small class="text-muted">{{ row.item.bereich }}</small>
         </div>
-        <div class="text-center">
-            {% if row.anzahl > 0 %}
+
+        <div class="d-flex align-items-center">
+            <div class="text-center me-3">
+                {% if row.anzahl > 0 %}
                 <span class="h3 fw-bold">{{ row.durchschnitt }}</span>
                 <span class="d-block small text-muted">Ø aus {{ row.anzahl }} Einträgen</span>
-            {% else %}
+                {% else %}
                 <span class="badge bg-secondary">Keine Daten</span>
-            {% endif %}
+                {% endif %}
+            </div>
+            <!-- Pfeil rechts -->
+            <span class="text-muted fs-5">▼</span>
         </div>
     </div>
 
     {% if row.anzahl > 0 %}
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-striped mb-0 text-sm">
-                <thead>
-                    <tr>
-                        <th style="width: 15%">Datum</th>
-                        <th style="width: 15%">Anlass</th>
-                        <th style="width: 10%">Wert</th>
-                        <th>Kommentar</th>
-                        <th style="width: 10%">Foto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entry in row.eintraege %}
-                    <tr>
-                        <td>{{ entry.datum.strftime('%d.%m.%Y') }}</td>
-                        <td><span class="badge bg-light text-dark border">{{ entry.anlass or '-' }}</span></td>
-                        <td>
-                            <span class="badge bg-{{ color_map[entry.wert] }} fs-6" style="min-width: 40px;">
-                                {{ symbol_map[entry.wert] }}
-                            </span>
-                        </td>
-                        <td class="text-muted fst-italic">
-                            {{ entry.kommentar or '' }}
-                        </td>
-                        <td>
-                            {% if entry.foto_pfad %}
-                            <a href="{{ url_for('static', filename='uploads/' + entry.foto_pfad) }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                📷 Bild
-                            </a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <!-- Collapsible Body -->
+    <div id="collapse-{{ row.item.id }}" class="collapse">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped mb-0 text-sm">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%">Datum</th>
+                            <th style="width: 15%">Anlass</th>
+                            <th style="width: 10%">Wert</th>
+                            <th>Kommentar</th>
+                            <th style="width: 10%">Foto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in row.eintraege %}
+                        <tr>
+                            <td>{{ entry.datum.strftime('%d.%m.%Y') }}</td>
+                            <td><span class="badge bg-light text-dark border">{{ entry.anlass or '-' }}</span></td>
+                            <td>
+                                <span class="badge bg-{{ color_map[entry.wert] }} fs-6" style="min-width: 40px;">
+                                    {{ symbol_map[entry.wert] }}
+                                </span>
+                            </td>
+                            <td class="text-muted fst-italic">
+                                {{ entry.kommentar or '' }}
+                            </td>
+                            <td>
+                                {% if entry.foto_pfad %}
+                                <a href="{{ url_for('static', filename='uploads/' + entry.foto_pfad) }}" target="_blank"
+                                    class="btn btn-sm btn-outline-primary">
+                                    📷 Bild
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     {% endif %}
@@ -79,11 +93,27 @@
 </div>
 
 <style>
-@media print {
-    .no-print, nav, .btn { display: none !important; }
-    .card { break-inside: avoid; border: 1px solid #ccc; }
-    body { background: white; }
-}
+    @media print {
+
+        .no-print,
+        nav,
+        .btn {
+            display: none !important;
+        }
+
+        .card {
+            break-inside: avoid;
+            border: 1px solid #ccc;
+        }
+
+        .collapse {
+            display: block !important;
+        }
+
+        body {
+            background: white;
+        }
+    }
 </style>
 
 {% endblock %}

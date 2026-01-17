@@ -1,56 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
 {% if step == 1 %}
-    <form method="GET">
-        <label>Schüler:</label>
-        <select name="schueler_id" class="form-control mb-3">
-            {% for s in schueler %}
-            <option value="{{ s.id }}">{{ s.vorname }} {{ s.nachname }}</option>
-            {% endfor %}
-        </select>
-        <label>Bogen:</label>
-        <select name="bogen_id" class="form-control mb-3">
-            {% for b in boegen %}
-            <option value="{{ b.id }}">{{ b.titel }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit" class="btn btn-primary w-100">Starten</button>
-    </form>
+<form method="GET">
+    <label>Schüler:</label>
+    <select name="schueler_id" class="form-control mb-3">
+        {% for s in schueler %}
+        <option value="{{ s.id }}">{{ s.vorname }} {{ s.nachname }}</option>
+        {% endfor %}
+    </select>
+    <label>Bogen:</label>
+    <select name="bogen_id" class="form-control mb-3">
+        {% for b in boegen %}
+        <option value="{{ b.id }}">{{ b.titel }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary w-100">Starten</button>
+</form>
 {% else %}
-    <h3>{{ schueler.vorname }} {{ schueler.nachname }}</h3>
-    <form method="POST">
-        {% for item in items %}
-        <div class="card mb-3">
-            <div class="card-header">{{ item.bereich }}</div>
-            <div class="card-body">
-                <p>{{ item.text }}</p>
-                <div class="btn-group w-100 mb-4" role="group">
+<h3>{{ schueler.vorname }} {{ schueler.nachname }}</h3>
+<form method="POST">
+    {% for item in items %}
+    <div class="card mb-3">
+        <div class="card-header">{{ item.bereich }}</div>
+        <div class="card-body">
+            <p>{{ item.text }}</p>
+            <div class="btn-group w-100 mb-4" role="group">
 
-    <input type="radio" class="btn-check" name="wert" id="opt1" value="1" required>
-    <label class="btn btn-outline-danger py-3" for="opt1">
-        <span class="h3 d-block fw-bold">-</span>
-    </label>
+                <input type="radio" class="btn-check" name="wert_{{ item.id }}" id="opt1_{{ item.id }}" value="1"
+                    required>
+                <label class="btn btn-outline-danger py-3" for="opt1_{{ item.id }}">
+                    <span class="h3 d-block fw-bold">-</span>
+                </label>
 
-    <input type="radio" class="btn-check" name="wert" id="opt2" value="2">
-    <label class="btn btn-outline-warning py-3" for="opt2">
-        <span class="h3 d-block fw-bold">o</span>
-    </label>
+                <input type="radio" class="btn-check" name="wert_{{ item.id }}" id="opt2_{{ item.id }}" value="2">
+                <label class="btn btn-outline-warning py-3" for="opt2_{{ item.id }}">
+                    <span class="h3 d-block fw-bold">o</span>
+                </label>
 
-    <input type="radio" class="btn-check" name="wert" id="opt3" value="3">
-    <label class="btn btn-outline-success py-3" for="opt3">
-        <span class="h3 d-block fw-bold">+</span>
-    </label>
+                <input type="radio" class="btn-check" name="wert_{{ item.id }}" id="opt3_{{ item.id }}" value="3">
+                <label class="btn btn-outline-success py-3" for="opt3_{{ item.id }}">
+                    <span class="h3 d-block fw-bold">+</span>
+                </label>
 
-    <input type="radio" class="btn-check" name="wert" id="opt4" value="4">
-    <label class="btn btn-outline-success py-3" for="opt4">
-        <span class="h3 d-block fw-bold">++</span>
-    </label>
+                <input type="radio" class="btn-check" name="wert_{{ item.id }}" id="opt4_{{ item.id }}" value="4">
+                <label class="btn btn-outline-success py-3" for="opt4_{{ item.id }}">
+                    <span class="h3 d-block fw-bold">++</span>
+                </label>
 
-</div>
             </div>
         </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-success btn-lg w-100">Bogen Speichern</button>
-    </form>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success btn-lg w-100">Bogen Speichern</button>
+</form>
 {% endif %}
 {% endblock %}
