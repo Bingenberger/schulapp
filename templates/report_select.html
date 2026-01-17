@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Bericht abrufen</h3>
+<div class="card p-4">
+    <form method="GET" action="/report/schueler">
+        <div class="mb-3">
+            <label class="form-label">Schüler:</label>
+            <select name="schueler_id" class="form-select">
+                {% for s in schueler %}
+                <option value="{{ s.id }}">{{ s.vorname }} {{ s.nachname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Kompetenzbogen:</label>
+            <select name="bogen_id" class="form-select">
+                {% for b in boegen %}
+                <option value="{{ b.id }}">{{ b.titel }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Bericht anzeigen</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h6 class="text-muted mb-0">Items verwalten für Bogen:</h6>
+        <h3>{{ bogen.titel }}</h3>
+    </div>
+    <div>
+        <a href="/admin/bogen/{{ bogen.id }}/item/new" class="btn btn-primary">+ Neues Item</a>
+        <a href="/admin/boegen" class="btn btn-outline-secondary ms-2">Zurück zur Übersicht</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Bereich</th>
+                <th>Item-Text</th>
+                <th class="text-end">Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td><span class="badge bg-secondary">{{ item.bereich }}</span></td>
+                <td>{{ item.text }}</td>
+                <td class="text-end">
+                    <a href="/admin/item/edit/{{ item.id }}" class="btn btn-sm btn-outline-primary">✎ Bearbeiten</a>
+                    <a href="/admin/item/delete/{{ item.id }}" class="btn btn-sm btn-outline-danger ms-1"
+                        onclick="return confirm('Soll dieses Item wirklich gelöscht werden? Alle Beobachtungen dazu gehen verloren!')">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not items %}
+            <tr>
+                <td colspan="3" class="text-center text-muted py-4">Noch keine Items in diesem Bogen.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

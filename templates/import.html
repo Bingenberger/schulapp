@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Import: {{ typ }}</h3>
+<form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label>Excel-Datei (.xlsx)</label>
+        <input type="file" name="file" class="form-control" required>
+    </div>
+    <div class="alert alert-info small">
+        {% if typ == 'schueler' %}
+        Spalten benötigt: <strong>Vorname, Nachname, Klasse</strong>
+        {% else %}
+        Spalten benötigt: <strong>Bogen, Bereich, Item</strong>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Hochladen</button>
+</form>
+{% endblock %}

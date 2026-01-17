@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">{{ titel_prefix }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <!-- Versteckter Hinweis auf Bogen -->
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Gehört zu Bogen:</label>
+                        <input type="text" class="form-control-plaintext fw-bold" value="{{ bogen.titel }}" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bereich" class="form-label">Bereich / Kategorie</label>
+                        <input type="text" class="form-control" id="bereich" name="bereich"
+                            value="{{ item.bereich or '' }}" placeholder="z.B. Sozialverhalten, Mathe, etc." required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="text" class="form-label">Beschreibung / Item-Text</label>
+                        <textarea class="form-control" id="text" name="text" rows="3"
+                            required>{{ item.text or '' }}</textarea>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Speichern</button>
+                        <a href="/admin/bogen/{{ bogen.id }}/items" class="btn btn-outline-secondary">Abbrechen</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

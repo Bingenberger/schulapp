@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Schnelleintrag</h3>
+<form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <select name="schueler_id" class="form-control">
+            <option disabled selected>Schüler wählen...</option>
+            {% for s in schueler %}
+            <option value="{{ s.id }}">{{ s.vorname }} {{ s.nachname }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="mb-3">
+        <select name="item_id" class="form-control">
+            <option disabled selected>Kompetenz wählen...</option>
+            {% for b in boegen %}
+                <optgroup label="{{ b.titel }}">
+                {% for item in b.items %}
+                    <option value="{{ item.id }}">{{ item.text }}</option>
+                {% endfor %}
+                </optgroup>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Bewertung:</label>
+        <div class="btn-group w-100 mb-4" role="group">
+
+    <input type="radio" class="btn-check" name="wert" id="opt1" value="1" required>
+    <label class="btn btn-outline-danger py-3" for="opt1">
+        <span class="h3 d-block fw-bold">-</span>
+    </label>
+
+    <input type="radio" class="btn-check" name="wert" id="opt2" value="2">
+    <label class="btn btn-outline-warning py-3" for="opt2">
+        <span class="h3 d-block fw-bold">o</span>
+    </label>
+
+    <input type="radio" class="btn-check" name="wert" id="opt3" value="3">
+    <label class="btn btn-outline-success py-3" for="opt3">
+        <span class="h3 d-block fw-bold">+</span>
+    </label>
+
+    <input type="radio" class="btn-check" name="wert" id="opt4" value="4">
+    <label class="btn btn-outline-success py-3" for="opt4">
+        <span class="h3 d-block fw-bold">++</span>
+    </label>
+
+</div>
+    </div>
+
+    <div class="mb-3">
+        <textarea name="kommentar" class="form-control" placeholder="Kommentar (optional)"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Foto (optional):</label>
+        <input type="file" name="foto" class="form-control" accept="image/*" capture="environment">
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg w-100">Speichern</button>
+</form>
+{% endblock %}

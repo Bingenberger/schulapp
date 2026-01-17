@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-grid gap-3">
+    <a href="/erfassen/einzel" class="btn btn-warning btn-xl">⚡ Notiz zwischendurch</a>
+    <hr>
+    <a href="/erfassen/reihe/start" class="btn btn-primary btn-xl">👥 Klassen-Durchlauf (Reihe)</a>
+    <a href="/erfassen/schueler" class="btn btn-success btn-xl">👤 Ein Schüler - Ganzer Bogen</a>
+    <a href="/erfassen/multi/start" class="btn btn-dark btn-xl">🚀 Multi-Item Durchlauf</a>
+    <hr>
+    <a href="/report/schueler" class="btn btn-info btn-xl text-white">📊 Bericht / Übersicht</a>
+    <hr>
+    <!-- Import Links entfernt -->
+    <div class="text-center mt-4">
+        <a href="/setup" class="text-muted small">Datenbank Reset / Testdaten</a>
+    </div>
+</div>
+{% endblock %}

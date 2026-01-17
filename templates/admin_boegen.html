@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>📋 Bögen verwalten</h3>
+    <div>
+        <a href="/import/bogen" class="btn btn-outline-primary me-2">+ Import Excel</a>
+        <a href="/admin/bogen/new" class="btn btn-primary">+ Neuer Bogen</a>
+        <a href="/admin" class="btn btn-outline-secondary ms-2">Zurück</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Titel</th>
+                <th class="text-end">Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in boegen %}
+            <tr>
+                <td class="fw-bold">{{ b.titel }}</td>
+                <td class="text-end">
+                    <a href="/admin/bogen/{{ b.id }}/items" class="btn btn-sm btn-info text-white me-2">📋 Items verwalten</a>
+                    <a href="/admin/bogen/edit/{{ b.id }}" class="btn btn-sm btn-outline-primary">✎ Titel ändern</a>
+                    <a href="/admin/bogen/delete/{{ b.id }}" class="btn btn-sm btn-outline-danger ms-1" onclick="return confirm('ACHTUNG: Soll der Bogen „{{ b.titel }}“ wirklich gelöscht werden? ALLE ITEMS UND BEOBACHTUNGEN DAZU WERDEN UNWIDERRUFLICH GELÖSCHT!')">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not boegen %}
+            <tr>
+                <td colspan="2" class="text-center text-muted py-4">Keine Bögen vorhanden.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

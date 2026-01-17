@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>🎓 Schüler verwalten</h3>
+    <div>
+        <a href="/import/schueler" class="btn btn-outline-primary me-2">+ Import Excel</a>
+        <a href="/admin" class="btn btn-outline-secondary">Zurück</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Klasse</th>
+                <th>Nachname</th>
+                <th>Vorname</th>
+                <th class="text-end">Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in schueler %}
+            <tr>
+                <td><span class="badge bg-secondary">{{ s.klasse }}</span></td>
+                <td>{{ s.nachname }}</td>
+                <td>{{ s.vorname }}</td>
+                <td class="text-end">
+                    <a href="/admin/student/edit/{{ s.id }}" class="btn btn-sm btn-outline-primary">✎ Bearbeiten</a>
+                    <a href="/admin/student/delete/{{ s.id }}" class="btn btn-sm btn-outline-danger ms-1" onclick="return confirm('ACHTUNG: Soll {{ s.vorname }} wirklich gelöscht werden? ALLE BEOBACHTUNGEN UND FOTOS DIESES KINDES WERDEN UNWIDERRUFLICH GELÖSCHT!')">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Schülerdaten bearbeiten</h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Vorname</label>
+                        <input type="text" name="vorname" class="form-control" value="{{ s.vorname }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nachname</label>
+                        <input type="text" name="nachname" class="form-control" value="{{ s.nachname }}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Klasse</label>
+                        <input type="text" name="klasse" class="form-control" value="{{ s.klasse }}" required>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Speichern</button>
+                        <a href="/admin/students" class="btn btn-outline-secondary">Abbrechen</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

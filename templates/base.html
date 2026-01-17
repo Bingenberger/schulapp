@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schul-Beobachter</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- SCHUL-FARBKONZEPT --- */
+        :root {
+            --school-blue: #84acce;
+            --school-yellow: #f6f2b5;
+            --school-green: #c7e1ba;
+            --school-orange: #f08d4b;
+            --school-dark: #343434;
+            --school-bg: #f8f9fa; /* Sehr helles Grau als Hintergrund */
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif; /* Modernere Schriftart */
+            color: var(--school-dark);
+            background-color: var(--school-bg);
+        }
+
+        /* 1. DIE NAVIGATION */
+        .navbar {
+            background-color: var(--school-blue) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            color: var(--school-dark) !important;
+            font-weight: 700;
+        }
+
+        /* 2. BUTTONS: PRIMARY (Hauptaktionen) -> BLAU */
+        .btn-primary {
+            background-color: var(--school-blue);
+            border-color: var(--school-blue);
+            color: var(--school-dark);
+            font-weight: 700;
+        }
+        .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+            background-color: #6a9bbd !important; /* Etwas dunkleres Blau beim Klick */
+            border-color: #6a9bbd !important;
+            color: #fff !important;
+        }
+
+        /* 3. BUTTONS: SECONDARY (Überspringen etc.) -> GRAU */
+        .btn-secondary, .btn-outline-secondary {
+            color: #666;
+            border-color: #ccc;
+        }
+
+        /* 4. DIE BEWERTUNGS-BUTTONS (Das Wichtigste!) */
+
+        /* Das MINUS (-) -> Wird ORANGE statt Rot */
+        .btn-outline-danger {
+            color: var(--school-orange);
+            border-color: var(--school-orange);
+        }
+        .btn-outline-danger:hover, .btn-check:checked + .btn-outline-danger {
+            background-color: var(--school-orange);
+            border-color: var(--school-orange);
+            color: #fff; /* Weiße Schrift auf Orange */
+        }
+
+        /* Der KREIS (o) -> Wird GELB */
+        .btn-outline-warning {
+            color: #bfae2a; /* Etwas dunkleres Gelb für den Text (Lesbarkeit) */
+            border-color: var(--school-warning);
+        }
+        /* Wenn angeklickt: */
+        .btn-outline-warning:hover, .btn-check:checked + .btn-outline-warning {
+            background-color: var(--school-yellow);
+            border-color: #e0db94;
+            color: var(--school-dark); /* Dunkle Schrift auf hellem Gelb */
+        }
+
+        /* Das PLUS (+ / ++) -> Wird GRÜN */
+        .btn-outline-success {
+            color: #7a9c6a; /* Dunkleres Grün für Text/Rahmen */
+            border-color: #7a9c6a;
+        }
+        /* Wenn angeklickt: */
+        .btn-outline-success:hover, .btn-check:checked + .btn-outline-success {
+            background-color: var(--school-green);
+            border-color: var(--school-green);
+            color: var(--school-dark);
+        }
+
+        /* 5. KARTEN UND LAYOUT */
+        .card {
+            border: none;
+            border-radius: 12px; /* Runder */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sanfter Schatten */
+        }
+        .card-header {
+            background-color: rgba(132, 172, 206, 0.2); /* Das Schulblau, aber sehr transparent */
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-weight: bold;
+        }
+
+        /* Extra Styles für große Buttons */
+        .btn-xl {
+            padding: 20px 25px;
+            font-size: 1.3rem;
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            transition: transform 0.1s;
+        }
+        .btn-xl:active {
+            transform: scale(0.98);
+        }
+
+        /* Damit Checkboxen in der Multi-Auswahl gut aussehen */
+        .form-check-input:checked {
+            background-color: var(--school-blue);
+            border-color: var(--school-blue);
+        }
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar mb-4 sticky-top">
+  <div class="container d-flex justify-content-between">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+        <span style="font-size: 1.5rem;">🏫</span>
+        <span class="ms-2 d-none d-md-inline">Kompetenz-App</span>
+    </a>
+
+ {% if current_user.is_authenticated %}
+    <div class="d-flex align-items-center gap-2">
+        <span class="text-white small d-none d-sm-inline me-2">👤 {{ current_user.username }}</span>
+
+        <a href="/admin" class="btn btn-sm btn-light" title="Verwaltung">⚙️</a>
+
+        <a href="/change_password" class="btn btn-sm btn-light" title="Passwort ändern">🔑</a>
+        <a href="/logout" class="btn btn-sm btn-outline-light">Abmelden</a>
+    </div>
+    {% endif %}
+  </div>
+</nav>
+
+    <div class="container pb-5">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-success shadow-sm border-0" style="background-color: var(--school-green); color: var(--school-dark);">
+                {{ messages[0] }}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

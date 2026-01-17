@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <span class="badge bg-secondary">{{ anlass }}</span>
+    <span class="badge bg-dark">Kind {{ progress }}</span>
+</div>
+
+<h2 class="mb-4 text-center">{{ schueler.vorname }} {{ schueler.nachname }}</h2>
+
+<form method="POST" action="/erfassen/multi/next" enctype="multipart/form-data">
+
+    {% for item in items %}
+    <div class="card mb-4 shadow-sm border-primary">
+        <div class="card-header bg-primary-subtle">
+            <strong>{{ item.bereich }}</strong>: {{ item.text }}
+        </div>
+        <div class="card-body">
+
+            <div class="btn-group w-100 mb-3" role="group">
+                <input type="radio" class="btn-check" name="wert_{{ item.id }}" id="btn_{{ item.id }}_1" value="1">
+                <label class="btn btn-outline-danger py-2" for="btn_{{ item.id }}_1"><span class="h4 fw-bold">-</span></label>
+
+                <input type="radio" class="btn-check" name="wert_{{ item.id }}" id="btn_{{ item.id }}_2" value="2">
+                <label class="btn btn-outline-warning py-2" for="btn_{{ item.id }}_2"><span class="h4 fw-bold">o</span></label>
+
+                <input type="radio" class="btn-check" name="wert_{{ item.id }}" id="btn_{{ item.id }}_3" value="3">
+                <label class="btn btn-outline-success py-2" for="btn_{{ item.id }}_3"><span class="h4 fw-bold">+</span></label>
+
+                <input type="radio" class="btn-check" name="wert_{{ item.id }}" id="btn_{{ item.id }}_4" value="4">
+                <label class="btn btn-outline-success py-2" for="btn_{{ item.id }}_4"><span class="h4 fw-bold">++</span></label>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-8">
+                    <input type="text" name="kommentar_{{ item.id }}" class="form-control form-control-sm" placeholder="Kommentar...">
+                </div>
+                <div class="col-4">
+                    <input type="file" name="foto_{{ item.id }}" class="form-control form-control-sm" accept="image/*" capture="environment">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="d-grid gap-2 mb-5">
+        <button type="submit" name="action" value="speichern" class="btn btn-success btn-xl">
+            Alles Speichern & Weiter
+        </button>
+        <button type="submit" name="action" value="skip" class="btn btn-secondary" formnovalidate>
+            Kind überspringen
+        </button>
+    </div>
+
+</form>
+{% endblock %}

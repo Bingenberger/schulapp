@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Neuer Klassendurchlauf</h3>
+<form method="POST" action="/erfassen/reihe/start">
+
+    <div class="mb-3">
+        <label class="form-label">Kompetenz / Item</label>
+        <select name="item_id" class="form-select" required>
+            {% for bogen in boegen %}
+                <optgroup label="{{ bogen.titel }}">
+                {% for item in bogen.items %}
+                    <option value="{{ item.id }}">{{ item.text }}</option>
+                {% endfor %}
+                </optgroup>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Titel / Anlass</label>
+        <input type="text" name="anlass" class="form-control" placeholder="z.B. Diagnostiktest 1" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Datum der Beobachtung</label>
+        <input type="date" name="datum" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg w-100">Starten</button>
+</form>
+
+<script>
+    // Setzt das Datum automatisch auf Heute
+    document.querySelector('input[type="date"]').valueAsDate = new Date();
+</script>
+{% endblock %}

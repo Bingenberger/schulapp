@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <span class="badge bg-secondary">{{ anlass }}</span>
+    <span class="badge bg-dark">{{ progress }}</span>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">{{ schueler.vorname }} {{ schueler.nachname }}</h4>
+    </div>
+    <div class="card-body">
+        <p class="lead">{{ item.text }}</p>
+
+        <form method="POST" action="/erfassen/reihe/next" enctype="multipart/form-data">
+
+            <label class="form-label fw-bold">Einschätzung:</label>
+            <div class="btn-group w-100 mb-4" role="group">
+
+    <input type="radio" class="btn-check" name="wert" id="opt1" value="1" required>
+    <label class="btn btn-outline-danger py-3" for="opt1">
+        <span class="h3 d-block fw-bold">-</span>
+    </label>
+
+    <input type="radio" class="btn-check" name="wert" id="opt2" value="2">
+    <label class="btn btn-outline-warning py-3" for="opt2">
+        <span class="h3 d-block fw-bold">o</span>
+    </label>
+
+    <input type="radio" class="btn-check" name="wert" id="opt3" value="3">
+    <label class="btn btn-outline-success py-3" for="opt3">
+        <span class="h3 d-block fw-bold">+</span>
+    </label>
+
+    <input type="radio" class="btn-check" name="wert" id="opt4" value="4">
+    <label class="btn btn-outline-success py-3" for="opt4">
+        <span class="h3 d-block fw-bold">++</span>
+    </label>
+
+</div>
+
+            <div class="mb-3">
+                <label class="form-label">Bemerkung (optional):</label>
+                <textarea name="kommentar" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Foto (optional):</label>
+                <input type="file" name="foto" class="form-control" accept="image/*" capture="environment">
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" name="action" value="speichern" class="btn btn-success btn-lg">
+                    Speichern & Weiter
+                </button>
+                <button type="submit" name="action" value="skip" class="btn btn-outline-secondary" formnovalidate>
+                    Überspringen (Krank/Fehlt)
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

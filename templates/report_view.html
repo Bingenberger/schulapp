@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h6 class="text-muted mb-0">Bericht für</h6>
+        <h2>{{ schueler.vorname }} {{ schueler.nachname }}</h2>
+    </div>
+    <div class="text-end">
+        <span class="badge bg-primary fs-6">{{ bogen.titel }}</span>
+        <br>
+        <small class="text-muted">Erstellt am: {{ now }}</small>
+    </div>
+</div>
+
+<hr>
+
+{% for row in report_data %}
+<div class="card mb-4 shadow-sm" style="border-left: 5px solid {% if row.durchschnitt >= 3.5 %}#198754{% elif row.durchschnitt >= 2.5 %}#0d6efd{% elif row.durchschnitt >= 1.5 %}#ffc107{% else %}#dc3545{% endif %};">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-0">{{ row.item.text }}</h5>
+            <small class="text-muted">{{ row.item.bereich }}</small>
+        </div>
+        <div class="text-center">
+            {% if row.anzahl > 0 %}
+                <span class="h3 fw-bold">{{ row.durchschnitt }}</span>
+                <span class="d-block small text-muted">Ø aus {{ row.anzahl }} Einträgen</span>
+            {% else %}
+                <span class="badge bg-secondary">Keine Daten</span>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if row.anzahl > 0 %}
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped mb-0 text-sm">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">Datum</th>
+                        <th style="width: 15%">Anlass</th>
+                        <th style="width: 10%">Wert</th>
+                        <th>Kommentar</th>
+                        <th style="width: 10%">Foto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in row.eintraege %}
+                    <tr>
+                        <td>{{ entry.datum.strftime('%d.%m.%Y') }}</td>
+                        <td><span class="badge bg-light text-dark border">{{ entry.anlass or '-' }}</span></td>
+                        <td>
+                            <span class="badge bg-{{ color_map[entry.wert] }} fs-6" style="min-width: 40px;">
+                                {{ symbol_map[entry.wert] }}
+                            </span>
+                        </td>
+                        <td class="text-muted fst-italic">
+                            {{ entry.kommentar or '' }}
+                        </td>
+                        <td>
+                            {% if entry.foto_pfad %}
+                            <a href="{{ url_for('static', filename='uploads/' + entry.foto_pfad) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                📷 Bild
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+
+<div class="text-center no-print mt-5">
+    <button onclick="window.print()" class="btn btn-secondary">🖨️ Bericht drucken / PDF</button>
+</div>
+
+<style>
+@media print {
+    .no-print, nav, .btn { display: none !important; }
+    .card { break-inside: avoid; border: 1px solid #ccc; }
+    body { background: white; }
+}
+</style>
+
+{% endblock %}
