@@ -195,7 +195,7 @@ def reihe_start():
         datum_str = request.form.get('datum') # Kommt als String YYYY-MM-DD
 
         # 2. Liste aller Schüler-IDs holen (Sortiert nach Nachname)
-        schueler = Schueler.query.order_by(Schueler.nachname).all()
+        schueler = Schueler.query.order_by(Schueler.nachname, Schueler.vorname).all()
         schueler_ids = [s.id for s in schueler]
 
         # 3. Alles in der Session speichern (Browser-Gedächtnis)
@@ -282,7 +282,7 @@ def erfassen_schueler():
     b_id = request.args.get('bogen_id')
     
     if not s_id or not b_id:
-        return render_template('batch_schueler.html', step=1, schueler=Schueler.query.all(), boegen=Bogen.query.all())
+        return render_template('batch_schueler.html', step=1, schueler=Schueler.query.order_by(Schueler.nachname, Schueler.vorname).all(), boegen=Bogen.query.all())
 
     schueler = Schueler.query.get(s_id)
     items = Item.query.filter_by(bogen_id=b_id).all()
@@ -323,7 +323,7 @@ def erfassen_einzel():
         flash('Beobachtung gespeichert!')
         return redirect(url_for('index'))
         
-    return render_template('einzel.html', schueler=Schueler.query.all(), boegen=Bogen.query.all())
+    return render_template('einzel.html', schueler=Schueler.query.order_by(Schueler.nachname, Schueler.vorname).all(), boegen=Bogen.query.all())
 
 # SETUP HELPER (Für den ersten Start)
 @app.route('/setup')
@@ -363,7 +363,7 @@ def report_schueler():
     # Wenn nichts gewählt ist -> Auswahlmenü zeigen
     if not s_id or not b_id:
         return render_template('report_select.html',
-                               schueler=Schueler.query.all(),
+                               schueler=Schueler.query.order_by(Schueler.nachname, Schueler.vorname).all(),
                                boegen=Bogen.query.all())
 
     # Daten laden
@@ -432,7 +432,7 @@ def multi_start():
         datum_str = request.form.get('datum')
 
         # 3. Schülerliste laden
-        schueler = Schueler.query.order_by(Schueler.nachname).all()
+        schueler = Schueler.query.order_by(Schueler.nachname, Schueler.vorname).all()
         schueler_ids = [s.id for s in schueler]
 
         # 4. Session befüllen
